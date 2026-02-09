@@ -178,7 +178,7 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
 
             <div className="pt-16 flex min-h-[calc(100vh-64px)]">
                 {/* 🏛️ Academy Sidebar - Desktop Only */}
-                <aside className="w-72 bg-white border-r border-slate-200 hidden xl:flex flex-col sticky top-16 h-[calc(100vh-64px)]">
+                <aside className="w-72 bg-white border-r border-slate-200 hidden lg:flex flex-col sticky top-16 h-[calc(100vh-64px)]">
                     <div className="flex-1 p-6 space-y-8 overflow-y-auto scrollbar-hide">
                         {/* Summary Widget */}
                         <div className="p-5 bg-slate-900 rounded-2xl space-y-4 shadow-xl shadow-slate-200">
@@ -226,62 +226,62 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                 </aside>
 
                 {/* 🚀 Main Platform Workspace */}
-                <main className="flex-1 px-4 md:px-16 py-8 md:py-20 pb-32 xl:pb-20">
+                <main className="flex-1 px-4 md:px-16 py-6 md:py-20 pb-32 lg:pb-20">
                     <AnimatePresence mode="wait">
                         {activeTab === 'journey' && (
-                            <motion.div key="journey" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto space-y-20">
-                                <header className="space-y-6">
+                            <motion.div key="journey" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto space-y-12 md:space-y-20">
+                                <header className="space-y-4 md:space-y-6">
                                     <div className="flex items-center gap-3">
                                         <div className="h-px w-8 bg-indigo-200" />
                                         <span className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.4em]">
                                             {getGreeting()}, {userProfile.username}
                                         </span>
                                     </div>
-                                    <div className="space-y-4">
-                                        <h1 className="text-3xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-tight md:leading-none">
+                                    <div className="space-y-2 md:space-y-4">
+                                        <h1 className="text-3xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.1] md:leading-none">
                                             {pathData.title} <span className="text-indigo-600 uppercase italic font-black">Core.</span>
                                         </h1>
-                                        <p className="text-base md:text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
+                                        <p className="text-sm md:text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
                                             {pathData.description}
                                         </p>
                                     </div>
 
-                                    <div className="pt-6 flex flex-wrap gap-4">
+                                    <div className="pt-4 md:pt-6 flex flex-wrap gap-3 md:gap-4">
                                         <PathMetric icon={<Zap size={16} />} label="Energy Level" value={`${userProfile.xp_points} XP`} />
                                         <PathMetric icon={<BookOpen size={16} />} label="Knowledge Nodes" value={`${allUnits.length} Units`} />
                                         <PathMetric icon={<Target size={16} />} label="Global Rank" value="#241" />
                                     </div>
                                 </header>
 
-                                <div className="space-y-24">
+                                <div className="space-y-16 md:space-y-24">
                                     {modules.map((module, mIdx) => (
-                                        <section key={module.id} className="space-y-10">
-                                            <div className="flex items-center gap-6">
-                                                <div className="w-12 h-12 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center text-sm font-black text-indigo-600">
+                                        <section key={module.id} className="space-y-8 md:space-y-10">
+                                            <div className="flex items-center gap-4 md:gap-6">
+                                                <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-xl md:rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center text-xs md:text-sm font-black text-indigo-600">
                                                     0{mIdx + 1}
                                                 </div>
-                                                <h2 className="text-2xl font-bold text-slate-900 tracking-tight">{module.title}</h2>
+                                                <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">{module.title}</h2>
                                                 <div className="flex-1 h-px bg-slate-100" />
                                             </div>
 
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                                                 {module.units.map((unit) => (
                                                     <div
                                                         key={unit.id}
                                                         onClick={() => handleUnitClick(unit)}
-                                                        className={`group relative p-8 bg-white rounded-[2.5rem] border-2 transition-all duration-300 cursor-pointer ${unit.isCompleted
+                                                        className={`group relative p-6 md:p-8 bg-white rounded-3xl md:rounded-[2.5rem] border-2 transition-all duration-300 cursor-pointer ${unit.isCompleted
                                                             ? "border-green-100 bg-green-50/10"
                                                             : unit.isLocked
                                                                 ? "opacity-50 grayscale pointer-events-none border-slate-100 bg-slate-50/50"
-                                                                : "border-transparent shadow-[0_15px_40px_rgba(0,0,0,0.02)] hover:border-indigo-600 hover:shadow-[0_25px_60px_-15px_rgba(79,70,229,0.12)] hover:scale-[1.02]"
+                                                                : "border-transparent shadow-[0_15px_40px_rgba(0,0,0,0.02)] hover:border-indigo-600 hover:shadow-[0_25px_60px_-15px_rgba(79,70,229,0.12)] hover:scale-[1.01]"
                                                             }`}
                                                     >
-                                                        <div className="flex justify-between items-start mb-8">
-                                                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all shadow-sm ${unit.isCompleted
+                                                        <div className="flex justify-between items-start mb-6 md:mb-8">
+                                                            <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center transition-all shadow-sm ${unit.isCompleted
                                                                 ? "bg-green-600 text-white"
                                                                 : "bg-slate-50 text-slate-400 group-hover:bg-indigo-600 group-hover:text-white"
                                                                 }`}>
-                                                                {unit.isCompleted ? <ShieldCheck size={28} /> : <PlayCircle size={28} />}
+                                                                {unit.isCompleted ? <ShieldCheck size={24} className="md:size-28" /> : <PlayCircle size={24} className="md:size-28" />}
                                                             </div>
                                                             <div className="flex flex-col items-end gap-2">
                                                                 <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest group-hover:text-indigo-600">{unit.type}</span>
@@ -289,14 +289,14 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                                                             </div>
                                                         </div>
 
-                                                        <div className="space-y-2">
-                                                            <h3 className="text-xl font-bold text-slate-900 leading-tight group-hover:text-indigo-600 transition-colors">{unit.title}</h3>
-                                                            <p className="text-sm text-slate-500 font-medium leading-relaxed line-clamp-2">{unit.description}</p>
+                                                        <div className="space-y-1.5 md:space-y-2">
+                                                            <h3 className="text-lg md:text-xl font-bold text-slate-900 leading-tight group-hover:text-indigo-600 transition-colors">{unit.title}</h3>
+                                                            <p className="text-xs md:text-sm text-slate-500 font-medium leading-relaxed line-clamp-2">{unit.description}</p>
                                                         </div>
 
-                                                        <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-all">
+                                                        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-slate-50 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-all">
                                                             <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Execute Session</span>
-                                                            <ArrowRight className="text-indigo-600" size={18} />
+                                                            <ArrowRight className="text-indigo-600" size={16} />
                                                         </div>
                                                     </div>
                                                 ))}
@@ -397,7 +397,7 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
             </div>
 
             {/* 📱 Mobile Bottom Navigation */}
-            <div className="xl:hidden fixed bottom-0 left-0 right-0 z-[100] bg-white border-t border-slate-200 px-6 py-3 pb-8 flex items-center justify-around shadow-[0_-10px_30px_rgba(0,0,0,0.05)] backdrop-blur-xl bg-white/90">
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 z-[100] bg-white border-t border-slate-200 px-6 py-3 pb-8 flex items-center justify-around shadow-[0_-10px_30px_rgba(0,0,0,0.05)] backdrop-blur-xl bg-white/90">
                 <MobileNavLink active={activeTab === 'journey'} icon={<Layers size={20} />} label="Journey" onClick={() => setActiveTab('journey')} />
                 <MobileNavLink active={activeTab === 'hall'} icon={<Trophy size={20} />} label="Hall" onClick={() => setActiveTab('hall')} />
                 <MobileNavLink active={activeTab === 'stats'} icon={<TrendingUp size={20} />} label="Stats" onClick={() => setActiveTab('stats')} />
@@ -440,13 +440,13 @@ function SideLink({ active, icon, label, onClick }: any) {
 
 function PathMetric({ icon, label, value }: any) {
     return (
-        <div className="flex items-center gap-4 px-6 py-3 bg-white rounded-2xl border border-slate-200 shadow-sm group hover:border-indigo-600 transition-all">
-            <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+        <div className="flex items-center gap-3 md:gap-4 px-4 md:px-6 py-2.5 md:py-3 bg-white rounded-xl md:rounded-2xl border border-slate-200 shadow-sm group hover:border-indigo-600 transition-all">
+            <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-slate-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                 {icon}
             </div>
             <div className="flex flex-col">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">{label}</span>
-                <span className="text-sm font-bold text-slate-900">{value}</span>
+                <span className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-0.5 md:mb-1">{label}</span>
+                <span className="text-xs md:text-sm font-bold text-slate-900">{value}</span>
             </div>
         </div>
     );
@@ -454,13 +454,13 @@ function PathMetric({ icon, label, value }: any) {
 
 function StatusTile({ icon, label, value }: any) {
     return (
-        <div className="p-8 bg-white rounded-3xl border border-slate-200 space-y-4">
-            <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 shadow-sm">
+        <div className="p-6 md:p-8 bg-white rounded-2xl md:rounded-3xl border border-slate-200 space-y-3 md:space-y-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-slate-50 rounded-xl md:rounded-2xl flex items-center justify-center border border-slate-100 shadow-sm">
                 {icon}
             </div>
             <div className="space-y-1">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</p>
-                <p className="text-3xl font-black italic text-slate-900 tracking-tighter">{value}</p>
+                <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</p>
+                <p className="text-2xl md:text-3xl font-black italic text-slate-900 tracking-tighter">{value}</p>
             </div>
         </div>
     );

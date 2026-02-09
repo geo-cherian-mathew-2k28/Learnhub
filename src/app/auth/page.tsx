@@ -139,25 +139,25 @@ export default function AuthPage() {
             </div>
 
             {/* Form Side */}
-            <div className="w-full md:w-7/12 flex items-center justify-center p-8 md:p-16 bg-white overflow-y-auto">
+            <div className="w-full md:w-7/12 flex items-center justify-center p-6 md:p-16 bg-white overflow-y-auto">
                 <div className="w-full max-w-[480px]">
                     <div className="mb-12">
                         {/* 🔘 Segmented Tab Switcher */}
                         <div className="flex p-1 bg-slate-100 rounded-2xl mb-12">
                             <button
                                 onClick={() => { setIsLogin(true); setError(null); }}
-                                className={`flex-1 py-4 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${isLogin ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                className={`flex-1 py-3.5 md:py-4 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${isLogin ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                             >
                                 <div className="flex items-center justify-center gap-2">
-                                    <LogIn size={14} /> Sign In
+                                    <LogIn size={12} className="md:size-14" /> Sign In
                                 </div>
                             </button>
                             <button
                                 onClick={() => { setIsLogin(false); setError(null); }}
-                                className={`flex-1 py-4 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${!isLogin ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                className={`flex-1 py-3.5 md:py-4 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${!isLogin ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                             >
                                 <div className="flex items-center justify-center gap-2">
-                                    <UserPlus size={14} /> Sign Up
+                                    <UserPlus size={12} className="md:size-14" /> Sign Up
                                 </div>
                             </button>
                         </div>
@@ -166,7 +166,7 @@ export default function AuthPage() {
                             key={isLogin ? "login-title" : "signup-title"}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-5xl font-black text-slate-900 tracking-tighter mb-4 italic uppercase"
+                            className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter mb-4 italic uppercase"
                         >
                             {isLogin ? "Welcome Back" : "Deploy Account"}
                         </motion.h2>
@@ -218,10 +218,10 @@ export default function AuthPage() {
                                         required
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-14 py-4 focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"
+                                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-12 md:px-14 py-3.5 md:py-4 focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-slate-800 text-base md:text-lg shadow-sm"
                                         placeholder="Enter your name"
                                     />
-                                    <UserPlus className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
+                                    <UserPlus className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={18} />
                                 </div>
                             </div>
                         )}
@@ -234,10 +234,10 @@ export default function AuthPage() {
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-14 py-4 focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"
+                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-12 md:px-14 py-3.5 md:py-4 focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-slate-800 text-base md:text-lg shadow-sm"
                                     placeholder="your@email.com"
                                 />
-                                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
+                                <Mail className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={18} />
                             </div>
                         </div>
 
@@ -251,16 +251,16 @@ export default function AuthPage() {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-14 py-4 focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"
+                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-12 md:px-14 py-3.5 md:py-4 focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-slate-800 text-base md:text-lg shadow-sm"
                                     placeholder="••••••••"
                                 />
-                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
+                                <Lock className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={18} />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 transition-colors"
+                                    className="absolute right-5 md:right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 transition-colors"
                                 >
-                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                 </button>
                             </div>
                         </div>

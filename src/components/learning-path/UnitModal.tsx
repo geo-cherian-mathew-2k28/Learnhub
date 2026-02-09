@@ -65,72 +65,101 @@ export function UnitModal({ unit, isOpen, onClose, onComplete }: UnitModalProps)
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="max-w-5xl w-[95vw] md:w-full p-0 bg-transparent border-none shadow-none z-[10001] h-[90vh] md:h-[75vh] min-h-[500px] md:min-h-[550px] overflow-hidden no-print">
+            <DialogContent className="max-w-5xl w-[95vw] md:w-full p-0 bg-transparent border-none shadow-none z-[10001] h-[95vh] md:h-[85vh] min-h-[500px] overflow-hidden no-print flex items-center justify-center">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.995 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="bg-white rounded-2xl md:rounded-xl overflow-hidden shadow-2xl relative h-full flex flex-col border border-slate-200"
+                    className="bg-white rounded-3xl md:rounded-2xl overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.25)] relative h-full w-full flex flex-col border border-slate-200"
                 >
                     <div className="flex flex-col md:flex-row h-full overflow-hidden">
-                        {/* 🔘 Professional Navigation - Responsive Sidebar/TopBar */}
-                        <aside className="w-full md:w-52 bg-slate-50 flex flex-row md:flex-col p-4 md:p-6 justify-between shrink-0 border-b md:border-b-0 md:border-r border-slate-100 overflow-x-auto scrollbar-hide">
-                            <div className="flex flex-row md:flex-col items-center md:items-stretch gap-6 md:gap-8 w-full">
-                                <div className="space-y-4 md:text-center shrink-0">
-                                    <div className="hidden md:flex w-10 h-10 bg-indigo-600 rounded-lg items-center justify-center text-white mx-auto shadow-sm">
-                                        <BookOpen size={18} />
+                        {/* 🔘 Navigation Sidebar / TopBar */}
+                        <aside className="w-full md:w-56 bg-slate-50 flex flex-col shrink-0 border-b md:border-b-0 md:border-r border-slate-100 overflow-hidden">
+                            {/* Header Info */}
+                            <div className="p-4 md:p-8 space-y-4 md:space-y-6 flex md:flex-col items-center md:items-stretch justify-between md:justify-start border-b md:border-b-0 border-slate-100">
+                                <div className="flex items-center gap-3 md:flex-col md:items-start md:gap-5">
+                                    <div className="flex w-8 h-8 md:w-12 md:h-12 bg-indigo-600 rounded-xl items-center justify-center text-white shadow-lg shadow-indigo-600/20">
+                                        <BookOpen size={20} className="md:size-24" />
                                     </div>
-                                    <DialogTitle className="text-xs md:text-sm font-black text-slate-900 tracking-tight leading-tight uppercase italic line-clamp-1 md:line-clamp-2 max-w-[150px] md:max-w-none">{unit.title}</DialogTitle>
+                                    <div className="space-y-1">
+                                        <p className="hidden md:block text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em]">Learning Node</p>
+                                        <DialogTitle className="text-sm md:text-base font-black text-slate-900 tracking-tight leading-tight uppercase italic line-clamp-1 md:line-clamp-2">{unit.title}</DialogTitle>
+                                    </div>
                                 </div>
-
-                                <nav className="flex flex-row md:flex-col gap-2 md:gap-1 flex-1">
-                                    <NavLink active={activeTab === 'concept'} icon={<Terminal size={12} className="md:w-3.5 md:h-3.5" />} label="Theory" onClick={() => setActiveTab('concept')} />
-                                    <NavLink active={activeTab === 'video'} unlocked={unlockedTabs.has('video')} icon={<PlayCircle size={12} className="md:w-3.5 md:h-3.5" />} label="Visual" onClick={() => setActiveTab('video')} />
-                                    <NavLink active={activeTab === 'evaluation'} unlocked={unlockedTabs.has('evaluation')} icon={<Target size={12} className="md:w-3.5 md:h-3.5" />} label="Mastery" onClick={() => setActiveTab('evaluation')} />
-                                </nav>
-
-                                <button onClick={onClose} className="md:hidden p-2 rounded-full bg-white border border-slate-200 text-slate-400 hover:text-red-500 transition-all">
-                                    <X size={18} />
+                                <button onClick={onClose} className="md:hidden p-2 rounded-full bg-white border border-slate-200 text-slate-400">
+                                    <X size={20} />
                                 </button>
                             </div>
 
-                            <button onClick={onClose} className="hidden md:flex items-center justify-center gap-2 text-slate-400 hover:text-slate-900 transition-all text-[9px] font-black uppercase tracking-widest px-2 py-4 border border-slate-200 rounded-lg">
-                                <X size={12} /> Exit Hub
-                            </button>
+                            {/* Navigation Tabs */}
+                            <nav className="flex flex-row md:flex-col p-2 md:p-4 gap-1 overflow-x-auto scrollbar-hide">
+                                <NavLink active={activeTab === 'concept'} icon={<Terminal size={14} />} label="Theory" onClick={() => setActiveTab('concept')} />
+                                <NavLink active={activeTab === 'video'} unlocked={unlockedTabs.has('video')} icon={<PlayCircle size={14} />} label="Visual" onClick={() => setActiveTab('video')} />
+                                <NavLink active={activeTab === 'evaluation'} unlocked={unlockedTabs.has('evaluation')} icon={<Target size={14} />} label="Mastery" onClick={() => setActiveTab('evaluation')} />
+                            </nav>
+
+                            <div className="hidden md:mt-auto md:p-6 md:block">
+                                <button onClick={onClose} className="w-full flex items-center justify-center gap-2 text-slate-400 hover:text-slate-900 transition-all text-[10px] font-black uppercase tracking-widest px-4 py-4 border border-slate-200 rounded-xl hover:bg-white hover:shadow-sm">
+                                    <X size={14} /> Exit Session
+                                </button>
+                            </div>
                         </aside>
 
-                        {/* ⚡ Workspace Arena */}
-                        <main className="flex-1 bg-white relative flex flex-col items-center h-full overflow-hidden">
+                        {/* ⚡ Content Workspace */}
+                        <main className="flex-1 bg-white relative flex flex-col h-full overflow-hidden">
                             <AnimatePresence mode="wait">
                                 {activeTab === "concept" && (
-                                    <motion.div key="concept" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-6 md:p-12 w-full max-w-2xl flex flex-col h-full overflow-y-auto scrollbar-hide">
-                                        <div className="flex-1 space-y-6 md:space-y-10">
-                                            <div className="space-y-4">
-                                                <h3 className="text-lg md:text-xl font-black text-slate-900 tracking-tighter uppercase italic border-l-4 border-indigo-600 pl-4 leading-none py-1">Architecture Briefing</h3>
-                                                <p className="text-xs md:text-sm text-slate-500 font-bold leading-relaxed">{unit.conceptInfo?.description || unit.description}</p>
-                                            </div>
+                                    <motion.div
+                                        key="concept"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className="p-6 md:p-16 w-full max-w-3xl mx-auto flex flex-col h-full overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200"
+                                    >
+                                        <div className="flex-1 space-y-8 md:space-y-12 pb-10">
+                                            <header className="space-y-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="h-px w-8 bg-indigo-600" />
+                                                    <span className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.3em]">Knowledge Base</span>
+                                                </div>
+                                                <h3 className="text-2xl md:text-4xl font-black text-slate-900 tracking-tighter uppercase italic leading-tight">Architecture <span className="text-indigo-600">Briefing.</span></h3>
+                                                <p className="text-base md:text-lg text-slate-500 font-medium leading-relaxed">{unit.conceptInfo?.description || unit.description}</p>
+                                            </header>
 
-                                            <div className="grid grid-cols-1 gap-2 md:gap-2.5">
+                                            <div className="grid grid-cols-1 gap-4">
                                                 {unit.conceptInfo?.points?.map((p, i) => (
-                                                    <div key={i} className="p-3 md:p-3.5 bg-slate-50 rounded-xl md:rounded-lg border border-slate-100 flex items-center gap-4">
-                                                        <Check size={12} className="text-indigo-600 shrink-0" strokeWidth={4} />
-                                                        <span className="font-black text-slate-700 text-[10px] md:text-[9px] uppercase tracking-tight leading-snug">{p}</span>
-                                                    </div>
+                                                    <motion.div
+                                                        initial={{ opacity: 0, x: -10 }}
+                                                        animate={{ opacity: 1, x: 0 }}
+                                                        transition={{ delay: i * 0.1 }}
+                                                        key={i}
+                                                        className="p-5 md:p-6 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-4 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 hover:border-indigo-100 transition-all"
+                                                    >
+                                                        <div className="w-6 h-6 rounded-lg bg-indigo-100 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-indigo-600 transition-colors">
+                                                            <Check size={14} className="text-indigo-600 group-hover:text-white" strokeWidth={4} />
+                                                        </div>
+                                                        <span className="font-bold text-slate-700 text-sm md:text-base leading-snug">{p}</span>
+                                                    </motion.div>
                                                 ))}
                                             </div>
                                         </div>
 
-                                        <div className="mt-8 mb-4 md:mb-0">
-                                            <Button onClick={() => handleNextTab("concept")} className="w-full h-12 md:h-12 bg-slate-900 text-white rounded-xl md:rounded-lg text-[11px] md:text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-indigo-600/10">
-                                                Confirm Theory <ArrowRight size={14} />
+                                        <div className="sticky bottom-0 pt-6 pb-2 bg-gradient-to-t from-white via-white to-transparent mt-auto">
+                                            <Button onClick={() => handleNextTab("concept")} className="w-full h-14 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-indigo-600 transition-all flex items-center justify-center gap-3 active:scale-[0.98] shadow-2xl shadow-indigo-600/20">
+                                                Confirm Theory <ArrowRight size={16} />
                                             </Button>
                                         </div>
                                     </motion.div>
                                 )}
 
                                 {activeTab === "video" && (
-                                    <motion.div key="video" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full h-full flex flex-col items-center justify-center p-6 md:p-8 bg-slate-50/50">
-                                        <div className="w-full max-w-xl flex flex-col items-center gap-6 md:gap-8">
-                                            <div className="w-full relative bg-slate-900 rounded-2xl md:rounded-xl overflow-hidden shadow-2xl border-4 border-white aspect-video">
+                                    <motion.div key="video" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full h-full flex flex-col items-center justify-center p-6 md:p-12 bg-slate-50/30">
+                                        <div className="w-full max-w-2xl flex flex-col items-center gap-8 md:gap-12">
+                                            <header className="text-center space-y-4">
+                                                <span className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.4em]">Visual Synchronization</span>
+                                                <h3 className="text-xl md:text-3xl font-black text-slate-900 uppercase italic">Media <span className="text-indigo-600">Protocol.</span></h3>
+                                            </header>
+
+                                            <div className="w-full relative bg-slate-900 rounded-3xl overflow-hidden shadow-[0_45px_100px_-20px_rgba(0,0,0,0.4)] border-8 border-white aspect-video group">
                                                 {videoId ? (
                                                     <iframe
                                                         width="100%" height="100%"
@@ -140,21 +169,18 @@ export function UnitModal({ unit, isOpen, onClose, onComplete }: UnitModalProps)
                                                         className="w-full h-full border-0"
                                                     />
                                                 ) : (
-                                                    <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-indigo-400 font-black uppercase text-[10px]">
-                                                        <Loader2 className="animate-spin" size={24} />
-                                                        <span>Syncing Stream...</span>
+                                                    <div className="w-full h-full flex flex-col items-center justify-center gap-4 text-indigo-400">
+                                                        <Loader2 className="animate-spin" size={32} />
+                                                        <span className="font-black uppercase text-[10px] tracking-widest">Awaiting Signal...</span>
                                                     </div>
                                                 )}
                                             </div>
 
-                                            <div className="text-center space-y-4 max-w-sm">
-                                                <div className="space-y-2">
-                                                    <h4 className="text-base font-black text-slate-900 tracking-tighter uppercase italic">Visual Sync Protocol</h4>
-                                                    <p className="text-[10px] md:text-[9px] text-slate-400 font-bold uppercase tracking-[0.1em] opacity-80 leading-relaxed">Observe the architectural flow to authorize mastery phase.</p>
-                                                </div>
+                                            <div className="text-center space-y-6">
+                                                <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-[0.2em] max-w-xs mx-auto leading-relaxed">Analyze the visual flow to unlock the mastery evaluation phase.</p>
                                                 <Button
                                                     onClick={() => handleNextTab("video")}
-                                                    className="w-full md:w-auto h-12 md:h-11 px-10 bg-indigo-600 text-white rounded-xl md:rounded-lg text-[11px] md:text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-xl active:scale-95 shadow-indigo-600/10"
+                                                    className="h-14 px-12 bg-indigo-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-xl active:scale-95 shadow-indigo-600/20"
                                                 >
                                                     Initiate Mastery
                                                 </Button>
@@ -182,21 +208,19 @@ function NavLink({ active, unlocked = true, icon, label, onClick }: any) {
         <button
             disabled={!unlocked}
             onClick={onClick}
-            className={`flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl md:rounded-lg text-[10px] md:text-[9px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${active
-                ? "bg-white md:bg-white text-indigo-600 shadow-sm border border-slate-200"
+            className={`flex items-center gap-3 px-6 py-3.5 md:py-4 rounded-xl md:rounded-xl text-[10px] md:text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap min-w-[120px] md:min-w-0 ${active
+                ? "bg-white text-indigo-600 shadow-md border border-slate-100"
                 : unlocked
                     ? "text-slate-400 hover:text-slate-900 hover:bg-white/50"
                     : "text-slate-200 pointer-events-none opacity-30"
                 }`}
         >
-            <span className={active ? "text-indigo-600" : ""}>{icon}</span>
-            <span className="hidden sm:inline md:inline">{label}</span>
-            <span className="sm:hidden">{label.split(' ')[0]}</span>
+            <span className={active ? "text-indigo-600 scale-110" : "transition-transform group-hover:scale-110"}>{icon}</span>
+            <span>{label}</span>
         </button>
     );
 }
 
-/* 🎮 Elite Sync Evaluation: Balanced & Professional Intercept Game */
 function EliteSyncGame({ questions, onComplete }: { questions: QuizQuestion[]; onComplete: (score: number) => void }) {
     const [step, setStep] = useState(0);
     const [score, setScore] = useState(0);
@@ -216,7 +240,7 @@ function EliteSyncGame({ questions, onComplete }: { questions: QuizQuestion[]; o
             isCorrect: i === q.correctAnswer,
             lane: i,
             y: 110 + (i * 20),
-            speed: 0.1,
+            speed: 0.12,
             color: i === 0 ? "from-indigo-600 to-indigo-800" :
                 i === 1 ? "from-slate-800 to-slate-900" :
                     i === 2 ? "from-blue-600 to-blue-800" : "from-purple-600 to-purple-800",
@@ -242,7 +266,7 @@ function EliteSyncGame({ questions, onComplete }: { questions: QuizQuestion[]; o
 
         if (n.isCorrect) {
             setScore(p => p + 25);
-            confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 }, colors: ['#4f46e5', '#ffffff'] });
+            confetti({ particleCount: 40, spread: 70, origin: { y: 0.8 }, colors: ['#4f46e5', '#ffffff', '#fbbf24'] });
             setTimeout(() => {
                 if (step < questions.length - 1) setStep(p => p + 1);
                 else setIsFinished(true);
@@ -258,10 +282,15 @@ function EliteSyncGame({ questions, onComplete }: { questions: QuizQuestion[]; o
 
     if (isGameOver) {
         return (
-            <div className="flex flex-col items-center justify-center h-full space-y-4">
-                <Shield size={32} className="text-red-500" />
-                <h3 className="text-sm font-black uppercase italic tracking-widest text-slate-800">Protocol Breached</h3>
-                <Button onClick={() => { setStep(0); setLives(3); setScore(0); setIsGameOver(false); }} className="h-10 px-8 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest">Re-Initialise</Button>
+            <div className="flex flex-col items-center justify-center h-full space-y-8 bg-red-50/30 p-8">
+                <div className="w-20 h-20 bg-red-100 rounded-3xl flex items-center justify-center text-red-600 shadow-2xl shadow-red-500/20">
+                    <Shield size={40} />
+                </div>
+                <div className="text-center space-y-2">
+                    <h3 className="text-2xl font-black uppercase italic tracking-tighter text-slate-900">Protocol Breached.</h3>
+                    <p className="text-xs font-bold text-red-500 uppercase tracking-widest">Cognitive synchronization failed.</p>
+                </div>
+                <Button onClick={() => { setStep(0); setLives(3); setScore(0); setIsGameOver(false); }} className="h-14 px-12 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest active:scale-95 transition-all shadow-xl">Re-Initialise</Button>
             </div>
         );
     }
@@ -269,45 +298,55 @@ function EliteSyncGame({ questions, onComplete }: { questions: QuizQuestion[]; o
     if (isFinished) {
         const percent = Math.min(100, Math.round((score / (questions.length * 25)) * 100));
         return (
-            <div className="flex flex-col items-center justify-center h-full space-y-6 p-6">
+            <div className="flex flex-col items-center justify-center h-full space-y-10 p-8 text-center">
                 <div className="relative">
-                    <Trophy size={64} className="text-indigo-600 animate-pulse" />
-                    <Sparkles className="absolute -top-2 -right-2 text-yellow-500 animate-spin" size={24} />
+                    <div className="absolute inset-0 bg-indigo-500/20 blur-[60px] rounded-full animate-pulse" />
+                    <Trophy size={80} className="text-indigo-600 relative z-10" />
+                    <Sparkles className="absolute -top-4 -right-4 text-amber-500 animate-bounce" size={32} />
                 </div>
-                <div className="text-center space-y-2">
-                    <h3 className="text-xl md:text-2xl font-black uppercase italic tracking-tight">Sync Completed</h3>
-                    <p className="text-sm md:text-base font-black text-indigo-600 italic tracking-[0.2em]">{percent}% Efficiency Achieved</p>
+                <div className="space-y-4">
+                    <h3 className="text-3xl md:text-5xl font-extrabold uppercase italic tracking-tighter text-slate-900">Sync Mastered.</h3>
+                    <div className="flex items-center justify-center gap-4">
+                        <div className="h-px w-8 bg-slate-200" />
+                        <p className="text-lg md:text-xl font-black text-indigo-600 italic tracking-[0.2em]">{percent}% Efficiency</p>
+                        <div className="h-px w-8 bg-slate-200" />
+                    </div>
                 </div>
-                <Button onClick={() => onComplete(percent)} className="w-full md:w-auto h-14 px-12 bg-slate-900 text-white rounded-2xl md:rounded-xl text-[11px] font-black uppercase tracking-[0.2em] shadow-xl hover:bg-indigo-600 transition-all active:scale-95">Seal Session</Button>
+                <Button onClick={() => onComplete(percent)} className="w-full md:w-auto h-16 px-16 bg-slate-900 text-white rounded-2xl text-[12px] font-black uppercase tracking-[0.3em] shadow-2xl hover:bg-indigo-600 transition-all active:scale-95 shadow-indigo-600/20">Seal Session Record</Button>
             </div>
         );
     }
 
     return (
-        <div className="relative w-full h-full flex flex-col bg-slate-50/20 overflow-hidden">
-            <div className="flex justify-between p-4 md:p-6 z-30">
-                <div className="bg-white/90 backdrop-blur px-3 py-1.5 rounded-xl border border-slate-100 shadow-sm flex flex-col">
-                    <span className="text-[7px] font-black text-slate-400 uppercase tracking-tighter leading-none">Phase</span>
-                    <span className="text-xs md:text-sm font-black italic tabular-nums leading-none mt-1">{step + 1} / {questions.length}</span>
+        <div className="relative w-full h-full flex flex-col bg-slate-50/40 overflow-hidden">
+            <div className="flex justify-between p-4 md:p-10 z-30 pointer-events-none">
+                <div className="bg-white/90 backdrop-blur-xl px-4 py-2 rounded-2xl border border-slate-200 shadow-xl flex flex-col">
+                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none">Sync Phase</span>
+                    <span className="text-sm md:text-lg font-black italic tabular-nums leading-none mt-1 text-slate-900">{step + 1} <span className="text-slate-300">/</span> {questions.length}</span>
                 </div>
-                <div className="flex gap-2">
-                    <div className="bg-white/90 backdrop-blur px-3 py-1.5 rounded-xl border border-slate-100 shadow-sm text-right flex flex-col">
-                        <span className="text-[7px] font-black text-slate-400 uppercase tracking-tighter leading-none">Sync XP</span>
-                        <span className="text-xs md:text-sm font-black text-indigo-600 italic tabular-nums leading-none mt-1">{score}</span>
+                <div className="flex gap-4">
+                    <div className="bg-white/90 backdrop-blur-xl px-4 py-2 rounded-2xl border border-slate-200 shadow-xl text-right flex flex-col">
+                        <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none">Potential XP</span>
+                        <span className="text-sm md:text-lg font-black text-indigo-600 italic tabular-nums leading-none mt-1">+{score}</span>
                     </div>
                 </div>
             </div>
 
             <div className="px-4 md:px-10 z-20">
-                <div className="max-w-xl mx-auto bg-white p-4 md:p-5 rounded-2xl border border-slate-200 shadow-lg text-center relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-indigo-600 opacity-20" />
-                    <h3 className="text-xs md:text-sm font-black text-slate-900 uppercase italic leading-tight md:leading-snug">
+                <motion.div
+                    key={step}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="max-w-xl mx-auto bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] text-center relative overflow-hidden"
+                >
+                    <div className="absolute top-0 left-0 w-full h-1.5 bg-indigo-600" />
+                    <h3 className="text-sm md:text-lg font-black text-slate-900 uppercase italic leading-tight md:leading-snug">
                         {q.question}
                     </h3>
-                </div>
+                </motion.div>
             </div>
 
-            <div className="flex-1 w-full relative h-full">
+            <div className="flex-1 w-full relative h-full mt-10 md:mt-20">
                 <AnimatePresence>
                     {nodes.map(n => (
                         <motion.button
@@ -317,21 +356,22 @@ function EliteSyncGame({ questions, onComplete }: { questions: QuizQuestion[]; o
                                 scale: n.clicked ? 0 : 1,
                                 opacity: n.clicked ? 0 : 1,
                                 top: `${n.y}%`,
-                                left: `${n.lane === 0 ? 20 : n.lane === 1 ? 40 : n.lane === 2 ? 60 : 80}%`
+                                left: `${n.lane === 0 ? 18 : n.lane === 1 ? 39 : n.lane === 2 ? 61 : 82}%`
                             }}
-                            className={`absolute translate-x-[-50%] flex items-center justify-center p-3 md:p-4 rounded-xl md:rounded-2xl text-white shadow-xl bg-gradient-to-br ${n.color} border border-white/20 w-[140px] md:w-[170px] h-[65px] md:h-[75px] active:scale-95 transition-transform`}
+                            transition={{ top: { duration: 0 } }}
+                            className={`absolute translate-x-[-50%] flex items-center justify-center p-3 md:p-5 rounded-2xl text-white shadow-2xl bg-gradient-to-br ${n.color} border-2 border-white/20 w-[120px] md:w-[220px] min-h-[50px] md:min-h-[80px] active:scale-95 transition-all group`}
                         >
-                            <span className="text-[9px] font-black uppercase text-center leading-tight px-1 line-clamp-2">{n.text}</span>
-                            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-white/5 rounded-full blur-md" />
+                            <span className="text-[10px] md:text-xs font-black uppercase text-center leading-tight px-1 drop-shadow-md">{n.text}</span>
+                            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                         </motion.button>
                     ))}
                 </AnimatePresence>
             </div>
 
-            <div className="p-4 md:p-6 mb-8 md:mb-0 flex justify-center z-30">
-                <div className="bg-white/90 backdrop-blur px-5 py-2.5 rounded-full border border-slate-100 shadow-md flex items-center gap-2">
-                    <Rocket size={12} className="text-indigo-600" />
-                    <span className="text-[8px] font-black text-slate-500 uppercase italic tracking-widest">Select valid Hub Node</span>
+            <div className="p-8 md:p-12 mb-4 flex justify-center z-30">
+                <div className="bg-slate-900/90 backdrop-blur px-6 py-3 rounded-full border border-white/10 shadow-2xl flex items-center gap-3">
+                    <Rocket size={16} className="text-indigo-400" />
+                    <span className="text-[9px] font-black text-indigo-100 uppercase italic tracking-[0.2em]">Select the valid node to intercept</span>
                 </div>
             </div>
         </div>
