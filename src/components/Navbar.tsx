@@ -18,7 +18,7 @@ export function Navbar() {
             style={{ backgroundColor: bgOpacity, borderBottomColor: borderOpacity, boxShadow: shadowOpacity }}
             className="fixed top-0 left-0 right-0 z-[100] h-16 border-b backdrop-blur-xl transition-all"
         >
-            <div className="max-w-7xl mx-auto px-10 h-full flex items-center justify-between">
+            <div className="max-w-7xl mx-auto px-4 md:px-10 h-full flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-4 group">
                     <div className="w-10 h-10 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-sm transition-transform group-hover:rotate-6">
                         <Layers size={20} />

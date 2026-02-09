@@ -177,10 +177,9 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
             <Navbar />
 
             <div className="pt-16 flex min-h-[calc(100vh-64px)]">
-                {/* 🏛️ Academy Sidebar */}
+                {/* 🏛️ Academy Sidebar - Desktop Only */}
                 <aside className="w-72 bg-white border-r border-slate-200 hidden xl:flex flex-col sticky top-16 h-[calc(100vh-64px)]">
                     <div className="flex-1 p-6 space-y-8 overflow-y-auto scrollbar-hide">
-
                         {/* Summary Widget */}
                         <div className="p-5 bg-slate-900 rounded-2xl space-y-4 shadow-xl shadow-slate-200">
                             <div className="flex items-center gap-3">
@@ -192,7 +191,6 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                                     <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest italic">Scholar Status</span>
                                 </div>
                             </div>
-
                             <div className="space-y-2">
                                 <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
                                     <span>Sync</span>
@@ -202,7 +200,6 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                                     <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} className="h-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
                                 </div>
                             </div>
-
                             <Button
                                 onClick={handleResume}
                                 disabled={isPathMastered}
@@ -211,7 +208,6 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                                 {isPathMastered ? "Course Finalized" : "Resume Flow"}
                             </Button>
                         </div>
-
                         <div className="space-y-2">
                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] px-2 mb-4">Operations</p>
                             <nav className="space-y-1">
@@ -221,7 +217,6 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                             </nav>
                         </div>
                     </div>
-
                     <div className="p-6 border-t border-slate-100 bg-slate-50/50">
                         <div className="flex items-center gap-3 px-2">
                             <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
@@ -231,7 +226,7 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                 </aside>
 
                 {/* 🚀 Main Platform Workspace */}
-                <main className="flex-1 px-6 lg:px-16 py-12 lg:py-20">
+                <main className="flex-1 px-4 md:px-16 py-8 md:py-20 pb-32 xl:pb-20">
                     <AnimatePresence mode="wait">
                         {activeTab === 'journey' && (
                             <motion.div key="journey" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto space-y-20">
@@ -243,10 +238,10 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                                         </span>
                                     </div>
                                     <div className="space-y-4">
-                                        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-none">
+                                        <h1 className="text-3xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-tight md:leading-none">
                                             {pathData.title} <span className="text-indigo-600 uppercase italic font-black">Core.</span>
                                         </h1>
-                                        <p className="text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
+                                        <p className="text-base md:text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
                                             {pathData.description}
                                         </p>
                                     </div>
@@ -401,9 +396,30 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                 </main>
             </div>
 
+            {/* 📱 Mobile Bottom Navigation */}
+            <div className="xl:hidden fixed bottom-0 left-0 right-0 z-[100] bg-white border-t border-slate-200 px-6 py-3 pb-8 flex items-center justify-around shadow-[0_-10px_30px_rgba(0,0,0,0.05)] backdrop-blur-xl bg-white/90">
+                <MobileNavLink active={activeTab === 'journey'} icon={<Layers size={20} />} label="Journey" onClick={() => setActiveTab('journey')} />
+                <MobileNavLink active={activeTab === 'hall'} icon={<Trophy size={20} />} label="Hall" onClick={() => setActiveTab('hall')} />
+                <MobileNavLink active={activeTab === 'stats'} icon={<TrendingUp size={20} />} label="Stats" onClick={() => setActiveTab('stats')} />
+            </div>
+
             <UnitModal unit={selectedUnit} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onComplete={handleComplete} />
             <CertificateModal isOpen={isCertOpen} onClose={() => setIsCertOpen(false)} userData={userProfile} pathTitle={pathData.title} />
         </div>
+    );
+}
+
+function MobileNavLink({ active, icon, label, onClick }: any) {
+    return (
+        <button
+            onClick={onClick}
+            className={`flex flex-col items-center gap-1.5 transition-all ${active ? 'text-indigo-600' : 'text-slate-400'}`}
+        >
+            <div className={`p-2 rounded-xl transition-all ${active ? 'bg-indigo-50 shadow-inner' : ''}`}>
+                {icon}
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-[0.1em]">{label}</span>
+        </button>
     );
 }
 
