@@ -25,6 +25,7 @@ export function Navbar() {
                     </div>
                     <div className="flex flex-col">
                         <span className="text-xl font-black text-slate-900 tracking-tighter uppercase italic">LearnHub</span>
+                        <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest pl-0.5 -mt-0.5">By Geo Cherian Mathew</span>
                     </div>
                 </Link>
 
