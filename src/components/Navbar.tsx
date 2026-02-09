@@ -1,57 +1,70 @@
 "use client";
 
 import { useAuth } from "@/lib/AuthContext";
-import { LogOut, User, LayoutGrid, Zap, Sparkles } from "lucide-react";
+import { LogOut, Layers } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export function Navbar() {
     const { user, signOut } = useAuth();
+    const { scrollY } = useScroll();
+
+    const bgOpacity = useTransform(scrollY, [0, 50], ["rgba(255, 255, 255, 0.8)", "rgba(255, 255, 255, 0.98)"]);
+    const borderOpacity = useTransform(scrollY, [0, 50], ["rgba(241, 245, 249, 0)", "rgba(241, 245, 249, 1)"]);
+    const shadowOpacity = useTransform(scrollY, [0, 50], ["0 0 0 rgba(0,0,0,0)", "0 10px 30px rgba(0,0,0,0.02)"]);
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-[100] px-6 py-4">
-            <div className="max-w-6xl mx-auto bg-white/80 backdrop-blur-xl border border-orange-100 rounded-[2rem] px-6 h-16 flex items-center justify-between shadow-lg shadow-orange-100/20">
-                <Link href="/" className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-byjus rounded-lg flex items-center justify-center text-white shadow-lg">
-                        <Zap size={20} fill="currentColor" />
+        <motion.header
+            style={{ backgroundColor: bgOpacity, borderBottomColor: borderOpacity, boxShadow: shadowOpacity }}
+            className="fixed top-0 left-0 right-0 z-[100] h-16 border-b backdrop-blur-xl transition-all"
+        >
+            <div className="max-w-7xl mx-auto px-10 h-full flex items-center justify-between">
+                <Link href="/" className="flex items-center gap-4 group">
+                    <div className="w-10 h-10 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-sm transition-transform group-hover:rotate-6">
+                        <Layers size={20} />
                     </div>
-                    <span className="text-xl font-black text-slate-800 tracking-tighter">LearnHub</span>
+                    <div className="flex flex-col">
+                        <span className="text-xl font-black text-slate-900 tracking-tighter uppercase italic">LearnHub</span>
+                    </div>
                 </Link>
 
-                <nav className="hidden md:flex items-center gap-8">
-                    <Link href="/path/kafka" className="text-sm font-black text-slate-500 hover:text-orange-500 uppercase tracking-widest transition-colors flex items-center gap-2">
-                        <LayoutGrid size={16} /> Academy
-                    </Link>
-                    <Link href="/" className="text-sm font-black text-slate-500 hover:text-orange-500 uppercase tracking-widest transition-colors flex items-center gap-2">
-                        <Sparkles size={16} /> Roadmap
-                    </Link>
-                </nav>
-
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-8">
                     {user ? (
-                        <div className="flex items-center gap-4">
-                            <Link href="/path/kafka" className="bg-orange-50 text-orange-600 px-5 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-orange-100 transition-all">My Journey</Link>
+                        <>
+                            <nav className="hidden lg:flex items-center gap-4">
+                                <NavLink href="/path/kafka" label="Curriculum" active />
+                            </nav>
+
+                            <div className="h-4 w-px bg-slate-100 mx-2" />
+
                             <button
                                 onClick={() => signOut()}
-                                className="p-2 hover:bg-red-50 text-red-400 rounded-xl transition-colors"
-                                title="Sign Out"
+                                className="flex items-center gap-3 text-[10px] font-black text-slate-400 hover:text-red-500 transition-all uppercase tracking-[0.3em]"
                             >
-                                <LogOut size={20} />
+                                Sign Out <LogOut size={16} />
                             </button>
-                        </div>
+                        </>
                     ) : (
-                        <Link href="/auth">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-byjus text-white px-6 py-2.5 rounded-xl text-sm font-black uppercase tracking-widest shadow-lg shadow-orange-100"
-                            >
-                                Join Academy
-                            </motion.button>
+                        <Link href="/">
+                            <button className="px-8 h-10 bg-slate-900 text-white rounded-xl text-xs font-black uppercase tracking-[0.2em] shadow-lg shadow-slate-900/10 hover:bg-indigo-600 transition-all">
+                                Join Now
+                            </button>
                         </Link>
                     )}
                 </div>
             </div>
-        </header>
+        </motion.header>
+    );
+}
+
+function NavLink({ href, label, active = false }: { href: string, label: string, active?: boolean }) {
+    return (
+        <Link
+            href={href}
+            className={`px-4 py-2 text-[10px] font-black uppercase tracking-[0.25em] transition-all relative group ${active ? 'text-indigo-600' : 'text-slate-400 hover:text-slate-900'}`}
+        >
+            {label}
+            <div className={`absolute bottom-0 left-4 right-4 h-[2px] bg-indigo-600 transition-transform origin-center ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
+        </Link>
     );
 }

@@ -3,140 +3,224 @@ import { LearningPath } from "../types";
 export const KAFKA_PATH: LearningPath = {
     id: "path_kafka",
     slug: "kafka",
-    title: "Apache Kafka",
-    description: "Master real-time event streaming and distributed architecture.",
+    title: "Apache Kafka Mastery",
+    description: "Master real-time event streaming and distributed architecture from zero to production hero.",
     icon: "Zap",
     color: "#FF7E29",
     modules: [
         {
-            id: "m0",
-            title: "Foundation: The Messenger",
+            id: "m1",
+            title: "Phase 1: The Big Picture",
             units: [
                 {
-                    id: "u_intro_0",
-                    title: "What is Apache Kafka?",
-                    description: "Master the core role of Kafka as the world's most powerful event streaming platform.",
-                    type: "concept",
-                    duration: "3 min",
+                    id: "u_fs_100",
+                    title: "Kafka in 100 Seconds",
+                    description: "A lightning-fast introduction to why Kafka is the heart of modern data pipelines.",
+                    type: "video",
+                    contentUrl: "https://www.youtube.com/embed/uvb00oaa3k8",
+                    duration: "2 min",
                     xpPoints: 50,
                     isLocked: false,
                     isCompleted: false,
                     conceptInfo: {
-                        title: "The Digital Nervous System",
-                        description: "Kafka acts as a central hub where data travels from 'Producers' (apps that talk) to 'Consumers' (apps that listen). It is distributed, meaning it runs on many computers at once for ultimate safety.",
+                        title: "The Nervous System of Apps",
+                        description: "Kafka is a distributed event streaming platform. Instead of apps talking directly to each other (and making a mess), they send events to Kafka, and others listen.",
                         points: [
-                            "Producers: Send data (events) into Kafka.",
-                            "Consumers: Read data from Kafka in real-time.",
-                            "Persistence: Kafka stores data safely on disk so nothing is lost.",
-                            "Scalability: It can handle trillions of events per day."
-                        ]
-                    }
-                },
-                {
-                    id: "u_intro_1",
-                    title: "Architecture Deep Dive",
-                    description: "Visualize how Kafka connects complex ecosystems like Uber and Netflix.",
-                    type: "video",
-                    contentUrl: "https://www.youtube.com/watch?v=JAlUHi7pTyE",
-                    duration: "8 min",
-                    xpPoints: 100,
-                    isLocked: true,
-                    isCompleted: false,
-                    conceptInfo: {
-                        title: "Real-World Impact",
-                        description: "When an event occurs (like a car moving in Uber), Kafka broadcasts this message to the map, the billing system, and the safety monitor simultaneously.",
-                        points: [
-                            "Decoupling: Apps don't need to know each other; they only know Kafka.",
-                            "Real-time: Data moves in milliseconds.",
-                            "History: You can 'replay' old events at any time.",
-                            "Fault Tolerance: If one server dies, another takes over instantly."
+                            "Decoupling: Producers and Consumers don't need to know each other.",
+                            "Scalability: Handles trillions of events across thousands of servers.",
+                            "Durability: Data is stored safely on disk like a database.",
+                            "Speed: Low latency for real-time reactions."
                         ]
                     },
                     quizQuestions: [
                         {
-                            id: "q_ka_1",
-                            question: "What is the primary role of Kafka in a system?",
-                            options: ["To edit photos", "To act as a central hub for data streams", "To browse the internet", "A simple storage folder"],
+                            id: "q_fs_1",
+                            question: "What is Kafka's primary role in a tech stack?",
+                            options: [
+                                "A simple web server for HTML",
+                                "A distributed event streaming platform",
+                                "A styling framework for CSS",
+                                "A version control system"
+                            ],
                             correctAnswer: 1,
-                            explanation: "Kafka is a 'Digital Nervous System'—it moves data between different parts of a large application instantly."
+                            explanation: "Kafka acts as a central hub for streaming data between different parts of a system."
                         },
                         {
-                            id: "q_ka_2",
-                            question: "What do we call the apps that SEND data into Kafka?",
-                            options: ["Receivers", "Watchers", "Producers", "Broadcasters"],
+                            id: "q_fs_2",
+                            question: "In Kafka, what do we call the 'apps that talk'?",
+                            options: ["Listeners", "Consumers", "Producers", "Brokers"],
                             correctAnswer: 2,
-                            explanation: "Producers 'produce' data and push it into Kafka topics."
-                        },
-                        {
-                            id: "q_ka_3",
-                            question: "What happens if a Kafka server goes down?",
-                            options: ["All data is lost", "The internet stops", "Other servers keep the data safe (Replication)", "You have to restart the app"],
-                            correctAnswer: 2,
-                            explanation: "Kafka is 'Distributed' and 'Fault-Tolerant', meaning it keeps copies of data across multiple servers."
-                        },
-                        {
-                            id: "q_ka_4",
-                            question: "Which of these is NOT a Kafka feature?",
-                            options: ["Scaling to millions of events", "Storing data on disk", "High-speed real-time delivery", "Making coffee"],
-                            correctAnswer: 3,
-                            explanation: "Kafka focuses on data streaming, storage, and scalability. It's powerful, but it doesn't make coffee!"
-                        },
-                        {
-                            id: "q_ka_5",
-                            question: "Why do companies like Netflix use Kafka?",
-                            options: ["To watch movies", "To suggest shows in real-time based on your clicks", "To host their website", "As a simple email server"],
-                            correctAnswer: 1,
-                            explanation: "Netflix uses Kafka to process billions of 'click events' to update your recommendations instantly."
+                            explanation: "Producers are the applications that write or publish events to Kafka."
                         }
                     ]
                 }
             ]
         },
         {
-            id: "m1",
-            title: "Core Mechanics: Topics & Partitions",
+            id: "m2",
+            title: "Phase 2: Core Foundations",
             units: [
                 {
-                    id: "u1",
-                    title: "Topics: Logical Categories",
-                    description: "Learn how data is organized and subdivided for massive scale.",
+                    id: "u_nana_beg",
+                    title: "Beginner Fundamentals",
+                    description: "Learn Topics, Partitions, and the internal mechanics that make Kafka tick.",
                     type: "video",
-                    contentUrl: "https://www.youtube.com/watch?v=fK2M3D_2_Y0",
-                    duration: "10 min",
+                    contentUrl: "https://www.youtube.com/embed/QkdkLdMBuL0",
+                    duration: "20 min",
                     xpPoints: 150,
                     isLocked: true,
                     isCompleted: false,
                     conceptInfo: {
-                        title: "The Organized Stream",
-                        description: "A 'Topic' is a category name. Inside topics, data is split into 'Partitions'. This allows many computers to work on one topic together.",
+                        title: "The Architecture of Scale",
+                        description: "Kafka organizes data into 'Topics'. To handle massive load, topics are split into 'Partitions' which are spread across multiple 'Brokers' (servers).",
                         points: [
-                            "Topics: Labeled streams of data (e.g., 'orders').",
-                            "Partitions: Sub-divisions for parallel processing.",
-                            "Offsets: A unique ID for every message in a partition.",
-                            "Consumer Groups: Teams of apps reading from partitions."
+                            "Topics: Logical categories (like folders) for messages.",
+                            "Partitions: Physical chunks of a topic for parallelism.",
+                            "Brokers: The servers that run Kafka and store data.",
+                            "Consumer Groups: Multiple consumers working together to read data."
                         ]
                     },
                     quizQuestions: [
                         {
-                            id: "q_arc_1",
-                            question: "What is a Topic in Kafka?",
-                            options: ["A unique password", "A category or feed name", "A broken cable", "A computer monitor"],
+                            id: "q_nana_1",
+                            question: "A 'Topic' in Kafka is best described as:",
+                            options: [
+                                "A specific user ID",
+                                "A logical stream of records",
+                                "A physical server name",
+                                "A type of database index"
+                            ],
                             correctAnswer: 1,
-                            explanation: "Think of a Topic as a folder or category name for specific types of data (like 'GPS_Locations')."
+                            explanation: "Topics are the categories where messages are published, representing a stream of data."
                         },
                         {
-                            id: "q_arc_2",
-                            question: "Why do we use Partitions?",
-                            options: ["To make the code harder", "To allow multiple apps to read data at the same time", "To delete old data", "To change the color of the UI"],
-                            correctAnswer: 1,
-                            explanation: "Partitions allow Kafka to scale by letting multiple servers handle pieces of a single topic."
-                        },
-                        {
-                            id: "q_arc_3",
-                            question: "What is an 'Offset'?",
-                            options: ["A mistake in the data", "The distance between servers", "A sequential ID for messages in a partition", "A type of coffee"],
+                            id: "q_nana_2",
+                            question: "Why do we use 'Partitions' in Kafka?",
+                            options: [
+                                "To encrypt data",
+                                "To delete old messages",
+                                "To enable parallel processing and scalability",
+                                "To slow down the data flow"
+                            ],
                             correctAnswer: 2,
-                            explanation: "An offset is a number that tells a Consumer exactly where it stopped reading in the stream."
+                            explanation: "Partitions allow a topic to be broken down and processed by multiple consumers simultaneously."
+                        }
+                    ]
+                },
+                {
+                    id: "u_bbg_fun",
+                    title: "Kafka Fundamentals Animated",
+                    description: "Visualize how Kafka handles data under the hood with high-quality animations.",
+                    type: "video",
+                    contentUrl: "https://www.youtube.com/embed/-RDyEFvnTXI",
+                    duration: "10 min",
+                    xpPoints: 100,
+                    isLocked: true,
+                    isCompleted: false,
+                    conceptInfo: {
+                        title: "The Commit Log Secret",
+                        description: "Under the hood, Kafka is just a giant, append-only commit log. This simplicity is why it is so fast and reliable.",
+                        points: [
+                            "Sequential I/O: Writing to the end of a file is extremely fast.",
+                            "Zero-Copy: Kafka sends data directly from disk to network without CPU overhead.",
+                            "Offsets: Every message has a unique ID to track what has been read.",
+                            "Replication: Copies of data are kept on different servers for safety."
+                        ]
+                    },
+                    quizQuestions: [
+                        {
+                            id: "q_bbg_1",
+                            question: "What makes Kafka faster than traditional message brokers?",
+                            options: [
+                                "It doesn't use disk storage",
+                                "It uses sequential I/O and zero-copy technology",
+                                "It only works with small pieces of data",
+                                "It requires manual data entry"
+                            ],
+                            correctAnswer: 1,
+                            explanation: "Kafka leverages operating system features like page cache and zero-copy to move data efficiently."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "m3",
+            title: "Phase 3: Technical Deep Dive",
+            units: [
+                {
+                    id: "u_kk_cr",
+                    title: "Intermediate Crash Course",
+                    description: "Bridge the gap between theory and implementation with this technical setup guide.",
+                    type: "video",
+                    contentUrl: "https://www.youtube.com/embed/cNFAP9OnJjo",
+                    duration: "60 min",
+                    xpPoints: 300,
+                    isLocked: true,
+                    isCompleted: false,
+                    conceptInfo: {
+                        title: "Brokers, Zookeeper & Kraft",
+                        description: "Learn how Kafka manages its own cluster. Traditionally it used Zookeeper, but modern Kafka (KRaft) handles metadata internally.",
+                        points: [
+                            "Cluster Management: How nodes talk to each other.",
+                            "Retention Policy: Deciding how long to keep data.",
+                            "Acknowledgement (ACKs): Ensuring data is safe before moving on.",
+                            "Throughput vs Latency: Tuning Kafka for your specific needs."
+                        ]
+                    },
+                    quizQuestions: [
+                        {
+                            id: "q_kk_1",
+                            question: "What is the role of KRaft in modern Kafka?",
+                            options: [
+                                "A new way to write Kafka producers",
+                                "A protocol to replace Zookeeper for metadata management",
+                                "A tool for visualizing data",
+                                "A security encryption standard"
+                            ],
+                            correctAnswer: 1,
+                            explanation: "KRaft allows Kafka to run without an external Zookeeper cluster, simplifying architecture."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "m4",
+            title: "Phase 4: Practical Mastery",
+            units: [
+                {
+                    id: "u_nana_adv",
+                    title: "Hands-On Project Demo",
+                    description: "Build a real-world, scalable system using Kafka and a production-grade tech stack.",
+                    type: "video",
+                    contentUrl: "https://www.youtube.com/embed/B7CwU_tNYIE",
+                    duration: "45 min",
+                    xpPoints: 500,
+                    isLocked: true,
+                    isCompleted: false,
+                    conceptInfo: {
+                        title: "Production Engineering",
+                        description: "In the real world, Kafka is integrated with databases, microservices, and monitoring tools to build resilient systems.",
+                        points: [
+                            "Microservices: Decoupling services using Kafka events.",
+                            "Error Handling: Retries and Dead Letter Topics.",
+                            "Monitoring: Tracking lag and throughput in production.",
+                            "Ecosystem: Using tools like Kafka Connect and Schema Registry."
+                        ]
+                    },
+                    quizQuestions: [
+                        {
+                            id: "q_na_adv_1",
+                            question: "What is a 'Dead Letter Topic' used for?",
+                            options: [
+                                "Storing emails that couldn't be sent",
+                                "Handling messages that fail processing after multiple retries",
+                                "Backroom storage for old data",
+                                "Speeding up the main topic"
+                            ],
+                            correctAnswer: 1,
+                            explanation: "Dead Letter Topics are utilized to isolate problematic messages so they don't block the rest of the pipeline."
                         }
                     ]
                 }
