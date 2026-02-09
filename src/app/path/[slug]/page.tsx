@@ -154,6 +154,13 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
     const progressPercent = allUnits.length > 0 ? Math.round((completedCount / allUnits.length) * 100) : 0;
     const isPathMastered = progressPercent === 100;
 
+    const getGreeting = () => {
+        const hour = new Date().getHours();
+        if (hour < 12) return "Good Morning";
+        if (hour < 17) return "Good Afternoon";
+        return "Good Evening";
+    };
+
     if (authLoading || loading || !pathData || !userProfile) {
         return (
             <div className="min-h-screen bg-white flex items-center justify-center">
@@ -231,7 +238,9 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                                 <header className="space-y-6">
                                     <div className="flex items-center gap-3">
                                         <div className="h-px w-8 bg-indigo-200" />
-                                        <span className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.4em]">Active Curriculum</span>
+                                        <span className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.4em]">
+                                            {getGreeting()}, {userProfile.username}
+                                        </span>
                                     </div>
                                     <div className="space-y-4">
                                         <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-none">
@@ -266,16 +275,16 @@ export default function DynamicPathDashboard({ params }: { params: Promise<{ slu
                                                         key={unit.id}
                                                         onClick={() => handleUnitClick(unit)}
                                                         className={`group relative p-8 bg-white rounded-[2.5rem] border-2 transition-all duration-300 cursor-pointer ${unit.isCompleted
-                                                                ? "border-green-100 bg-green-50/10"
-                                                                : unit.isLocked
-                                                                    ? "opacity-50 grayscale pointer-events-none border-slate-100 bg-slate-50/50"
-                                                                    : "border-transparent shadow-[0_15px_40px_rgba(0,0,0,0.02)] hover:border-indigo-600 hover:shadow-[0_25px_60px_-15px_rgba(79,70,229,0.12)] hover:scale-[1.02]"
+                                                            ? "border-green-100 bg-green-50/10"
+                                                            : unit.isLocked
+                                                                ? "opacity-50 grayscale pointer-events-none border-slate-100 bg-slate-50/50"
+                                                                : "border-transparent shadow-[0_15px_40px_rgba(0,0,0,0.02)] hover:border-indigo-600 hover:shadow-[0_25px_60px_-15px_rgba(79,70,229,0.12)] hover:scale-[1.02]"
                                                             }`}
                                                     >
                                                         <div className="flex justify-between items-start mb-8">
                                                             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all shadow-sm ${unit.isCompleted
-                                                                    ? "bg-green-600 text-white"
-                                                                    : "bg-slate-50 text-slate-400 group-hover:bg-indigo-600 group-hover:text-white"
+                                                                ? "bg-green-600 text-white"
+                                                                : "bg-slate-50 text-slate-400 group-hover:bg-indigo-600 group-hover:text-white"
                                                                 }`}>
                                                                 {unit.isCompleted ? <ShieldCheck size={28} /> : <PlayCircle size={28} />}
                                                             </div>
@@ -403,8 +412,8 @@ function SideLink({ active, icon, label, onClick }: any) {
         <button
             onClick={onClick}
             className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.15em] transition-all group ${active
-                    ? "bg-indigo-600 text-white shadow-xl shadow-indigo-600/20"
-                    : "text-slate-400 hover:text-slate-900 hover:bg-slate-50"
+                ? "bg-indigo-600 text-white shadow-xl shadow-indigo-600/20"
+                : "text-slate-400 hover:text-slate-900 hover:bg-slate-50"
                 }`}
         >
             <span className={`transition-transform duration-300 ${active ? 'scale-110' : 'group-hover:scale-110'}`}>{icon}</span>

@@ -46,7 +46,7 @@ export function Navbar() {
                             </button>
                         </>
                     ) : (
-                        <Link href="/">
+                        <Link href="/auth">
                             <button className="px-8 h-10 bg-slate-900 text-white rounded-xl text-xs font-black uppercase tracking-[0.2em] shadow-lg shadow-slate-900/10 hover:bg-indigo-600 transition-all">
                                 Join Now
                             </button>

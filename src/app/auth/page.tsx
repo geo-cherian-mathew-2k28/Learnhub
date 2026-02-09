@@ -35,10 +35,10 @@ export default function AuthPage() {
 
                 if (signInError) {
                     if (signInError.message.includes("Email not confirmed")) {
-                        throw new Error("Check your email Hero! ✉️ You need to click the magic link we sent you to start. (Check your spam folder too!)");
+                        throw new Error("Check your email Hero! ✉️ You need to click the magic link we sent you to start.");
                     }
                     if (signInError.message.includes("Invalid login credentials")) {
-                        throw new Error("Invalid password or email. 🔑 If you haven't signed up yet, please click 'Create Account' below!");
+                        throw new Error("Invalid credentials. 🔑 If you haven't signed up yet, click 'Sign Up' below.");
                     }
                     throw signInError;
                 }
@@ -48,7 +48,7 @@ export default function AuthPage() {
                     email: cleanEmail,
                     password,
                     options: {
-                        data: { full_name: name },
+                        data: { full_name: name || cleanEmail.split('@')[0] },
                         emailRedirectTo: `${window.location.origin}/path/kafka`
                     },
                 });
@@ -60,14 +60,7 @@ export default function AuthPage() {
                     throw signUpError;
                 }
 
-                setSuccess(true);
-                confetti({
-                    particleCount: 150,
-                    spread: 70,
-                    origin: { y: 0.6 },
-                    colors: ['#FF7E29', '#00C853', '#FFFFFF']
-                });
-
+                // Create the profile artifact immediately
                 if (data.user) {
                     await supabase.from('profiles').upsert({
                         id: data.user.id,
@@ -76,26 +69,41 @@ export default function AuthPage() {
                         streak_count: 0
                     }, { onConflict: 'id' });
                 }
+
+                // ⚡ Instant Access: Auto-SignIn to bypass email confirmation
+                const { error: autoLoginError } = await supabase.auth.signInWithPassword({
+                    email: cleanEmail,
+                    password,
+                });
+
+                if (autoLoginError) throw autoLoginError;
+
+                setSuccess(true);
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#4F46E5', '#06B6D4', '#FFFFFF']
+                });
+
+                // Redirect to dashboard after a short delay
+                setTimeout(() => router.push("/path/kafka"), 2000);
             }
         } catch (err: any) {
             console.error("Auth error:", err);
-            let msg = err.message || "Something went wrong! Try again.";
-            if (msg.includes("rate limit")) {
-                msg = "Whoa, slow down Hero! 🛑 Too many attempts. Please wait 60 seconds and try again.";
-            }
-            setError(msg);
+            setError(err.message || "Something went wrong! Try again.");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans selection:bg-orange-100">
+        <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans selection:bg-indigo-100 selection:text-indigo-900">
             {/* Visual Side */}
             <div className="hidden md:flex md:w-5/12 bg-slate-900 relative items-center justify-center p-20 overflow-hidden">
-                <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/30 rounded-full blur-[150px]" />
-                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-500/30 rounded-full blur-[150px]" />
+                <div className="absolute inset-0">
+                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[150px]" />
+                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[150px]" />
                 </div>
 
                 <div className="relative z-10 text-white space-y-12">
@@ -104,26 +112,26 @@ export default function AuthPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="space-y-6"
                     >
-                        <div className="w-20 h-20 bg-byjus rounded-[2rem] flex items-center justify-center shadow-2xl">
+                        <div className="w-20 h-20 bg-indigo-600 rounded-[2rem] flex items-center justify-center shadow-2xl">
                             <Sparkles size={40} className="text-white" />
                         </div>
-                        <h1 className="text-6xl font-black leading-tight tracking-tight">Level Up Your<br />Core Skills.</h1>
-                        <p className="text-xl text-slate-400 font-medium leading-relaxed max-w-sm">
-                            Access the world's most premium learning curriculum and join a community of top-tier engineers.
+                        <h1 className="text-6xl font-black leading-tight tracking-tight italic uppercase">Access<br />Mastery.</h1>
+                        <p className="text-xl text-slate-400 font-medium leading-relaxed max-w-sm italic">
+                            Enter the global terminal of specialized engineering.
                         </p>
                     </motion.div>
 
                     <div className="space-y-6 pt-10 border-t border-white/10">
                         {[
-                            "Real-world Architecture Simulators",
                             "Verified Professional Credentials",
-                            "Direct Access to Expert Paths"
+                            "Direct Access to Expert Paths",
+                            "High-Fidelity Learning Hub"
                         ].map((item, i) => (
                             <div key={i} className="flex items-center gap-4 text-slate-300">
-                                <div className="w-6 h-6 bg-orange-500/20 rounded-full flex items-center justify-center text-orange-400 shadow-inner">
-                                    <CheckCircle2 size={14} strokeWidth={3} />
+                                <div className="w-6 h-6 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400">
+                                    <CheckCircle2 size={14} />
                                 </div>
-                                <span className="font-bold text-sm tracking-wide">{item}</span>
+                                <span className="font-bold text-sm tracking-wide uppercase italic">{item}</span>
                             </div>
                         ))}
                     </div>
@@ -131,21 +139,41 @@ export default function AuthPage() {
             </div>
 
             {/* Form Side */}
-            <div className="w-full md:w-7/12 flex items-center justify-center p-8 md:p-16 bg-white">
+            <div className="w-full md:w-7/12 flex items-center justify-center p-8 md:p-16 bg-white overflow-y-auto">
                 <div className="w-full max-w-[480px]">
                     <div className="mb-12">
+                        {/* 🔘 Segmented Tab Switcher */}
+                        <div className="flex p-1 bg-slate-100 rounded-2xl mb-12">
+                            <button
+                                onClick={() => { setIsLogin(true); setError(null); }}
+                                className={`flex-1 py-4 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${isLogin ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                            >
+                                <div className="flex items-center justify-center gap-2">
+                                    <LogIn size={14} /> Sign In
+                                </div>
+                            </button>
+                            <button
+                                onClick={() => { setIsLogin(false); setError(null); }}
+                                className={`flex-1 py-4 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${!isLogin ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                            >
+                                <div className="flex items-center justify-center gap-2">
+                                    <UserPlus size={14} /> Sign Up
+                                </div>
+                            </button>
+                        </div>
+
                         <motion.h2
                             key={isLogin ? "login-title" : "signup-title"}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-5xl font-black text-slate-900 tracking-tighter mb-4"
+                            className="text-5xl font-black text-slate-900 tracking-tighter mb-4 italic uppercase"
                         >
-                            {isLogin ? "Welcome Back" : "Create Account"}
+                            {isLogin ? "Welcome Back" : "Deploy Account"}
                         </motion.h2>
-                        <p className="text-slate-500 font-medium text-lg leading-relaxed">
+                        <p className="text-slate-500 font-bold text-lg leading-relaxed uppercase tracking-tighter italic">
                             {isLogin
-                                ? "Enter your credentials to continue your journey."
-                                : "Join the academy and start your technical mastery."}
+                                ? "Resume your cognitive synchronization."
+                                : "Start your path to architectural mastery."}
                         </p>
                     </div>
 
@@ -169,58 +197,53 @@ export default function AuthPage() {
                                 exit={{ opacity: 0, height: 0 }}
                                 className="bg-green-50 text-green-700 p-8 rounded-3xl border-2 border-green-100 mb-10 shadow-sm"
                             >
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 shadow-inner">
-                                        <Mail size={24} />
-                                    </div>
-                                    <p className="text-xl font-black tracking-tight">Check Your Inbox!</p>
+                                <div className="flex items-center gap-4 mb-2">
+                                    <CheckCircle2 size={24} className="text-green-600" />
+                                    <p className="text-xl font-black tracking-tight uppercase italic">Entry Authorized!</p>
                                 </div>
-                                <p className="font-medium text-slate-600 leading-relaxed pl-16">
-                                    We've sent a magic link to your email. Click it to verify your account and start learning.
+                                <p className="font-bold text-slate-600 leading-relaxed pl-10 text-sm">
+                                    Your cognitive synchronization is complete. Initializing dashboard...
                                 </p>
                             </motion.div>
                         )}
                     </AnimatePresence>
 
-                    <form onSubmit={handleAuth} className="space-y-8">
+                    <form onSubmit={handleAuth} className="space-y-6">
                         {!isLogin && (
                             <div className="space-y-2">
-                                <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Full Name</label>
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">Display Name</label>
                                 <div className="relative group">
                                     <input
                                         type="text"
                                         required
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] px-14 py-5 focus:border-slate-900 focus:bg-white outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"
+                                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-14 py-4 focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"
                                         placeholder="Enter your name"
                                     />
-                                    <UserPlus className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={20} />
+                                    <UserPlus className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
                                 </div>
                             </div>
                         )}
 
                         <div className="space-y-2">
-                            <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Email Address</label>
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">Protocol Email</label>
                             <div className="relative group">
                                 <input
                                     type="email"
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] px-14 py-5 focus:border-slate-900 focus:bg-white outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"
+                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-14 py-4 focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"
                                     placeholder="your@email.com"
                                 />
-                                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={20} />
+                                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
                             </div>
                         </div>
 
                         <div className="space-y-2">
                             <div className="flex items-center justify-between px-2">
-                                <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Password</label>
-                                {isLogin && (
-                                    <button type="button" className="text-[11px] font-black text-orange-600 uppercase tracking-widest hover:underline">Forgot?</button>
-                                )}
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Master Passkey</label>
                             </div>
                             <div className="relative group">
                                 <input
@@ -228,14 +251,14 @@ export default function AuthPage() {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] px-14 py-5 focus:border-slate-900 focus:bg-white outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"
+                                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-14 py-4 focus:border-indigo-600 focus:bg-white outline-none transition-all font-bold text-slate-800 text-lg shadow-sm"
                                     placeholder="••••••••"
                                 />
-                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={20} />
+                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 transition-colors"
+                                    className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 transition-colors"
                                 >
                                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                                 </button>
@@ -245,28 +268,18 @@ export default function AuthPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-slate-900 text-white py-6 rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl hover:bg-orange-600 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg disabled:opacity-50"
+                            className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black uppercase tracking-[0.3em] shadow-2xl hover:bg-slate-900 active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-lg disabled:opacity-50"
                         >
                             {loading ? <Loader2 className="animate-spin" /> : (
                                 <>
-                                    {isLogin ? "Sign In" : "Create Account"} <ChevronRight size={24} />
+                                    {isLogin ? "Authenticate" : "Initialize Agent"} <ChevronRight size={24} />
                                 </>
                             )}
                         </button>
                     </form>
 
-                    <div className="mt-12 text-center pt-10 border-t border-slate-100">
-                        <button
-                            onClick={() => {
-                                setIsLogin(!isLogin);
-                                setError(null);
-                            }}
-                            className="text-slate-500 font-bold text-lg hover:text-slate-900 transition-colors"
-                        >
-                            {isLogin ? "Don't have an account?" : "Already have an account?"} <span className="text-orange-600 font-black ml-1 uppercase text-sm tracking-widest">
-                                {isLogin ? "Register Now" : "Sign In"}
-                            </span>
-                        </button>
+                    <div className="mt-12 text-center pt-8 border-t border-slate-100">
+                        <p className="text-slate-400 font-bold text-xs uppercase tracking-widest italic">LearnHub Academy Global Terminal</p>
                     </div>
                 </div>
             </div>

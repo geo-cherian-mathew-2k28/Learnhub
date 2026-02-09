@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight, PlayCircle, Trophy, Users } from "lucide-react";
+import Link from "next/link";
 
 export function Hero() {
     return (
@@ -39,9 +40,11 @@ export function Hero() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="flex flex-col sm:flex-row items-center justify-center gap-4"
                     >
-                        <Button size="lg" variant="premium" className="h-12 px-8 text-lg">
-                            Start Learning <ArrowRight className="ml-2 h-5 w-5" />
-                        </Button>
+                        <Link href="/auth">
+                            <Button size="lg" variant="premium" className="h-12 px-8 text-lg">
+                                Start Learning <ArrowRight className="ml-2 h-5 w-5" />
+                            </Button>
+                        </Link>
                         <Button size="lg" variant="glass" className="h-12 px-8 text-lg">
                             <PlayCircle className="mr-2 h-5 w-5" /> Watch Demo
                         </Button>
